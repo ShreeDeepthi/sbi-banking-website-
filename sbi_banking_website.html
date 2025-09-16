@@ -1,0 +1,342 @@
+<!--
+Project: SBI Banking Website (simple prototype)
+Files included below (copy each into your project folder):
+- index.html         (Customer login page)
+- dashboard.html     (Customer dashboard)
+- statements.html    (Bank statements / transactions)
+- assets/styles.css  (Shared CSS)
+- assets/scripts.js  (Light client-side JS for navigation/mock auth)
+- README (Deployment steps using Git & GitHub)
+
+Instructions: Create a folder, add an `assets` subfolder, then create the files below with matching names. Open `index.html` in browser to run locally.
+-->
+
+<!-- FILE: index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SBI - Customer Login</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient">
+  <main class="card">
+    <div class="brand">
+      <div class="logo">SBI</div>
+      <h1>State Bank - Customer Login</h1>
+    </div>
+
+    <form id="loginForm" class="form" onsubmit="return handleLogin(event)">
+      <label for="custId">Customer ID</label>
+      <input id="custId" name="custId" type="text" placeholder="e.g. 100012345" required>
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" placeholder="Enter your password" required>
+
+      <div class="row space-between">
+        <label class="remember"><input type="checkbox" id="remember"> Remember me</label>
+        <a href="#" class="text-muted small">Forgot password?</a>
+      </div>
+
+      <button class="btn primary" type="submit">Login</button>
+
+      <div class="divider">or</div>
+      <button type="button" class="btn ghost" onclick="alert('Demo: use Customer ID 12345 and any password to proceed')">Login with OTP</button>
+    </form>
+
+    <footer class="muted small">Secure connection • SBI Prototype</footer>
+  </main>
+
+  <script src="assets/scripts.js"></script>
+</body>
+</html>
+
+
+<!-- FILE: dashboard.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SBI - Customer Dashboard</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="bg-light">
+  <header class="topbar">
+    <div class="left">SBI • Customer Dashboard</div>
+    <div class="right">
+      <span id="custName">Hello, Customer</span>
+      <a class="btn small" href="index.html">Logout</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <a href="dashboard.html" class="active">Overview</a>
+        <a href="statements.html">Statements</a>
+        <a href="#">Funds Transfer</a>
+        <a href="#">Profile</a>
+      </nav>
+    </aside>
+
+    <section class="content">
+      <div class="grid-3">
+        <div class="card small">
+          <h3>Account Balance</h3>
+          <p class="big">₹ <span id="balance">75,842.50</span></p>
+          <p class="muted">Primary Savings • A/C 1000 1234 567</p>
+        </div>
+
+        <div class="card small">
+          <h3>Available Limits</h3>
+          <p class="big">₹ 50,000</p>
+          <p class="muted">Credit Card • Limit</p>
+        </div>
+
+        <div class="card small">
+          <h3>Recent Payments</h3>
+          <p class="muted">Last payment: ₹1,200 • 2 days ago</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row between">
+          <h3>Recent Transactions</h3>
+          <a href="statements.html" class="link">View all</a>
+        </div>
+
+        <table class="transactions">
+          <thead>
+            <tr><th>Date</th><th>Description</th><th>Type</th><th>Amount (₹)</th></tr>
+          </thead>
+          <tbody id="txnBody">
+            <!-- JS will populate demo rows -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Quick Actions</h3>
+        <div class="actions">
+          <button class="btn">Send Money</button>
+          <button class="btn">Deposit Cheque</button>
+          <button class="btn">Pay Bills</button>
+          <button class="btn ghost">Download Statement</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="assets/scripts.js"></script>
+</body>
+</html>
+
+
+<!-- FILE: statements.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SBI - Bank Statements</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="bg-light">
+  <header class="topbar">
+    <div class="left">SBI • Statements</div>
+    <div class="right">
+      <a class="btn small" href="index.html">Logout</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <a href="dashboard.html">Overview</a>
+        <a href="statements.html" class="active">Statements</a>
+        <a href="#">Fund Transfer</a>
+      </nav>
+    </aside>
+
+    <section class="content">
+      <div class="card">
+        <div class="row between">
+          <h3>Download Statements</h3>
+          <div>
+            <label>From: <input type="month" id="stmtFrom"></label>
+            <label>To: <input type="month" id="stmtTo"></label>
+            <button class="btn" onclick="downloadStatement()">Download PDF</button>
+          </div>
+        </div>
+
+        <table class="transactions">
+          <thead>
+            <tr><th>Date</th><th>Description</th><th>Type</th><th>Debit (₹)</th><th>Credit (₹)</th></tr>
+          </thead>
+          <tbody id="stmtBody">
+            <!-- demo rows populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="assets/scripts.js"></script>
+</body>
+</html>
+
+
+<!-- FILE: assets/styles.css -->
+:root{--blue:#0d6efd;--muted:#6b7280;--bg:#f5f7fb}
+*{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:#111}
+
+/* simple utility */
+.min-h-screen{min-height:100vh}
+.flex{display:flex}
+.items-center{align-items:center}
+.justify-center{justify-content:center}
+
+/* gradient background for login */
+.bg-gradient{background:linear-gradient(135deg,#e6f0ff 0%, #ffffff 60%)}
+
+.card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 8px 24px rgba(16,24,40,0.08);}
+.card.small{padding:14px}
+
+/* layout */
+.container{display:flex;gap:20px;max-width:1100px;margin:28px auto;padding:0 16px}
+.sidebar{width:220px}
+.content{flex:1}
+.topbar{background:#fff;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(16,24,40,0.04)}
+
+.brand{text-align:center;margin-bottom:8px}
+.logo{display:inline-block;background:#0b5ed7;color:#fff;padding:8px 12px;border-radius:6px;font-weight:700}
+
+.form{display:flex;flex-direction:column;gap:12px;width:340px}
+.form input[type=text],.form input[type=password],.form input[type=month]{padding:10px;border:1px solid #e6e9ef;border-radius:8px}
+.btn{padding:10px 14px;border-radius:8px;border:0;cursor:pointer}
+.btn.primary{background:var(--blue);color:#fff}
+.btn.ghost{background:transparent;border:1px solid #e6e9ef}
+.btn.small{padding:6px 8px}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.row{display:flex;align-items:center}
+.row.between{justify-content:space-between}
+.row.space-between{display:flex;justify-content:space-between;align-items:center}
+.remember{font-size:13px}
+.divider{text-align:center;color:var(--muted);margin-top:6px}
+
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.big{font-size:20px;font-weight:700}
+.transactions{width:100%;border-collapse:collapse;margin-top:8px}
+.transactions th,.transactions td{padding:10px;border-bottom:1px solid #f1f3f6;text-align:left}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.link{color:var(--blue);text-decoration:none}
+
+.sidebar nav a{display:block;padding:10px 12px;border-radius:8px;color:#333;text-decoration:none;margin-bottom:6px}
+.sidebar nav a.active{background:#eef4ff;color:var(--blue)}
+
+@media (max-width:900px){.container{flex-direction:column}.sidebar{width:100%}.grid-3{grid-template-columns:1fr} .form{width:100%}}
+
+
+/* small utility classes for spacing */
+.muted.small{opacity:0.8}
+
+
+<!-- FILE: assets/scripts.js -->
+/* Lightweight client-side demo logic: mock auth + demo data population */
+(function(){
+  const demoTxns = [
+    {date:'2025-09-10',desc:'Utility Bill',type:'DEBIT',amount:-1200},
+    {date:'2025-09-08',desc:'Salary Credit',type:'CREDIT',amount:50000},
+    {date:'2025-09-06',desc:'Grocery Store',type:'DEBIT',amount:-2600},
+    {date:'2025-09-03',desc:'Mobile Recharge',type:'DEBIT',amount:-299}
+  ];
+
+  window.handleLogin = function(evt){
+    evt.preventDefault();
+    const id = document.getElementById('custId').value.trim();
+    // Demo: accept any non-empty id and redirect to dashboard
+    if(!id){alert('Enter Customer ID');return false}
+    // Save mock session in sessionStorage
+    sessionStorage.setItem('sbi_demo_user', JSON.stringify({id, name:'Deepthi', balance:75842.50}));
+    window.location.href = 'dashboard.html';
+    return false;
+  }
+
+  function populateDashboard(){
+    const s = sessionStorage.getItem('sbi_demo_user');
+    if(!s){ /* no session: allow view but show generic */ }
+    const user = s ? JSON.parse(s) : {name:'Customer', balance:75842.50};
+    const nameEl = document.getElementById('custName'); if(nameEl) nameEl.textContent = `Hello, ${user.name}`;
+    const balEl = document.getElementById('balance'); if(balEl) balEl.textContent = user.balance.toFixed(2);
+
+    const tbody = document.getElementById('txnBody');
+    if(tbody){
+      tbody.innerHTML = '';
+      demoTxns.forEach(t => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${t.date}</td><td>${t.desc}</td><td>${t.type}</td><td style='text-align:right'>${(t.amount<0?'- ':'')}${Math.abs(t.amount).toFixed(2)}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    const stmtBody = document.getElementById('stmtBody');
+    if(stmtBody){
+      stmtBody.innerHTML = '';
+      // Expand txn rows with debit/credit columns
+      demoTxns.forEach(t => {
+        const tr = document.createElement('tr');
+        const debit = t.amount<0?Math.abs(t.amount).toFixed(2):'';
+        const credit = t.amount>0?t.amount.toFixed(2):'';
+        tr.innerHTML = `<td>${t.date}</td><td>${t.desc}</td><td>${t.type}</td><td style='text-align:right'>${debit}</td><td style='text-align:right'>${credit}</td>`;
+        stmtBody.appendChild(tr);
+      });
+    }
+  }
+
+  window.downloadStatement = function(){
+    alert('Demo: statement download would be generated on the server as a PDF. This is a front-end prototype.');
+  }
+
+  // Run populate on pages that include elements
+  document.addEventListener('DOMContentLoaded', populateDashboard);
+})();
+
+
+<!-- FILE: README -->
+# SBI Prototype - Local & GitHub Deployment
+
+## Local running
+1. Create project folder and add files as shown.
+2. Open `index.html` in your browser.
+
+## Deploy to GitHub using Git Bash (commands)
+1. Initialize git:
+
+```bash
+cd path/to/project
+git init
+git add .
+git commit -m "Initial commit - SBI prototype"
+```
+
+2. Create a GitHub repo (via github.com UI) named `sbi-prototype` then set remote:
+
+```bash
+git remote add origin git@github.com:<your-username>/sbi-prototype.git
+git branch -M main
+git push -u origin main
+```
+
+3. To host on GitHub Pages (optional): in your GitHub repo settings, enable GitHub Pages from `main` branch and set root as publishing source. Your site will be available at `https://<your-username>.github.io/sbi-prototype/`.
+
+## Notes
+- This is a front-end prototype only. Real banking applications require server-side authentication (OAuth/2FA), encryption (TLS), secure session handling, server-generated statements (PDFs), and PCI/DSS compliance.
+- Replace demo JS with secure APIs before using with real data.
+
+
+<!-- End of document -->
